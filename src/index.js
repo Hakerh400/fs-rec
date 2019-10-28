@@ -3,14 +3,10 @@
 const fs = require('fs');
 const path = require('path');
 const O = require('omikron');
+const FSEntry = require('./fs-entry');
+const types = require('./types');
 
 const allowUnsupported = 0;
-
-const types = O.enum([
-  'FILE',
-  'DIRECTORY',
-  'UNKNOWN',
-]);
 
 const getType = pth => {
   const stat = fs.statSync(pth);
@@ -39,12 +35,19 @@ const iter = async (pth, func) => {
 
   const type = getType(pth);
 
-  return pth;
+  if(type !== types.FILE){
+    const fse = new FSEntry(path.join(pth, '..'));
+    await func(fse);
+    return;
+  }
 };
 
 const del = async pth => {};
 
 module.exports = {
+  FSEntry,
+  types,
+
   iter,
   del,
 };
