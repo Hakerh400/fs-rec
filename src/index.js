@@ -13,23 +13,36 @@ const types = O.enum([
 ]);
 
 const getType = pth => {
-  const stat = fs.statSync(type);
+  const stat = fs.statSync(pth);
 
   if(stat.isFile()) return types.FILE;
   if(stat.isDirectory()) return types.DIRECTORY;
+  if(allowUnsupported) return types.UNKNOWN;
 
-  if(!allowUnsupported)
-    throw new TypeError('Unsupported file system entry type');
-
-  return types.UNKNOWN;
+  throw new TypeError('Unsupported file system entry type');
 };
 
 const isFile = pth => getType(pth) === types.FILE;
 const isDir = pth => getType(pth) === types.DIRECTORY;
 
-const iter = (pth, func) => {
-  
+const iter = async (pth, func) => {
+  if(!path.isAbsolute(pth))
+    pth = path.join(process.cwd(), pth);
+  pth = path.normalize(pth);
+
+  const base = path.parse(pth).base;
+  const all = base === '*';
+  if(all) pth = path.join('..');
+
+  if(!fs.existsSync(pth))
+    throw new Error('Path does not exist');
+
+  const type = getType(pth);
+
+  return pth;
 };
+
+const del = async pth => {};
 
 module.exports = {
   iter,
