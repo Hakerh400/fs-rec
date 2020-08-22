@@ -1,7 +1,7 @@
 {
   "name": "@hakerh400/fs-rec",
   "description": "Iterative implementation of recursive operations for Node.js file system module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Thomas <hakerh403@gmail.com>",
   "main": "index.js",
   "contributors": [],
@@ -15,11 +15,11 @@
   "repository": "git://github.com/Hakerh400/fs-rec.git",
   "scripts": {},
   "dependencies": {
-    "omikron": "^1.2.5"
+    "omikron": "~1.2.37"
   },
   "devDependencies": {},
   "engines": {
-    "node": ">=12"
+    "node": ">=14"
   },
   "license": "Unlicense"
 }
