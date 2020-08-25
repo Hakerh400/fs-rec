@@ -37,6 +37,10 @@ class FSEntry extends O.Stringifiable{
   get isFile(){ return this.type === types.FILE; }
   get isOther(){ return this.type === types.OTHER; }
 
+  join(pth){
+    return path.join(this.pth, pth);
+  }
+
   move(){ O.virtual('move'); }
   moveRec(pth){ this.move(pth); }
 
@@ -50,7 +54,7 @@ class FSEntry extends O.Stringifiable{
 class Directory extends FSEntry{
   #content = null;
 
-  get type(){ return types.FILE; }
+  get type(){ return types.DIR; }
 
   get content(){
     if(this.#content !== null)
@@ -64,10 +68,6 @@ class Directory extends FSEntry{
       if(stat.isFile()) return new File(pthNew);
       return new Other(pthNew);
     });
-  }
-
-  join(pth){
-    return path.join(this.pth, pth);
   }
 
   rel(pth){
