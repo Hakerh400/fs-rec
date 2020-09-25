@@ -1,7 +1,7 @@
 {
   "name": "@hakerh400/fs-rec",
   "description": "Iterative implementation of recursive operations for Node.js file system module",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "Thomas <hakerh403@gmail.com>",
   "main": "index.js",
   "contributors": [],

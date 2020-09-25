@@ -15,10 +15,17 @@ const types = O.enum([
 ]);
 
 class FSEntry extends O.Stringifiable{
-  constructor(pth){
+  constructor(parent, pth=null){
     super();
 
+    if(pth === null){
+      pth = parent;
+      parent = null;
+    }
+
+    this.parent = parent;
     this.pth = norm(pth);
+    this.depth = parent !== null ? parent.depth + 1 : 0;
 
     const info = path.parse(this.pth);
     this.root = info.root;
@@ -64,8 +71,8 @@ class Directory extends FSEntry{
       const pthNew = this.join(fileName);
       const stat = fs.statSync(pthNew);
 
-      if(stat.isDirectory()) return new Directory(pthNew);
-      if(stat.isFile()) return new File(pthNew);
+      if(stat.isDirectory()) return new Directory(this, pthNew);
+      if(stat.isFile()) return new File(this, pthNew);
       return new Other(pthNew);
     });
   }
