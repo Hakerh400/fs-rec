@@ -44,8 +44,8 @@ class FSEntry extends O.Stringifiable{
   get isFile(){ return this.type === types.FILE; }
   get isOther(){ return this.type === types.OTHER; }
 
-  join(pth){
-    return path.join(this.pth, pth);
+  join(...pths){
+    return path.join(this.pth, ...pths);
   }
 
   move(){ O.virtual('move'); }
